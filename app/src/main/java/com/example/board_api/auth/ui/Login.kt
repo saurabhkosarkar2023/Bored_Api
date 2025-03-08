@@ -73,8 +73,7 @@ fun Login(viewModel: AuthViewModel) {
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-
+            ) {
             Box(
                 modifier = Modifier.fillMaxHeight(0.35f)
             ) {
