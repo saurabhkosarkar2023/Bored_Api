@@ -6,16 +6,20 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 
 class AuthRepository {
-    private val auth : FirebaseAuth = FirebaseAuth.getInstance()
+//    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+
 
     suspend fun login(email:String,password: String): Result<String> {
-        return try {
+        Log.d("AuthRepository","Came for network call email >> $email and pass >> $password")
+        try {
             val response = auth.signInWithEmailAndPassword(email,password).await()
-            Log.d("auth response","Response >> ${response.user}")
-            Result.success("Login Successful")  //response.user
+            val user=response.user
+            Log.d("auth response","Response kya ara haii bhai  >> $user")
+            return Result.success(user?.email.toString())  //response.user
         }
         catch (e: Exception){
-            Result.failure(e)
+            return Result.failure(e)
         }
     }
     fun isUserLoggedIn() : Boolean {

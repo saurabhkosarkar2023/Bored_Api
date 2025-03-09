@@ -21,6 +21,8 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,12 +38,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.board_api.CommonTextField
 import com.example.board_api.R
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -49,6 +49,7 @@ import kotlinx.coroutines.launch
 fun Login(viewModel: AuthViewModel) {
     val loginState by viewModel.loginState.collectAsState(initial = null)
     val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -57,16 +58,18 @@ fun Login(viewModel: AuthViewModel) {
     LaunchedEffect(loginState) {
         loginState?.let { result->
             loginMessage = result.fold(
-                onSuccess = { "Login successful" },
+                onSuccess = {"Login successful"},
                 onFailure = { it.message ?: "Login failed" }
             )
         }
     }
 
     Scaffold(
+     snackbarHost = { SnackbarHost(hostState = SnackbarHostState()) }   ,
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp).background(color = MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+            .background(color = MaterialTheme.colorScheme.background)
 
     ) { innerPadding ->
         Column(
@@ -142,10 +145,13 @@ fun Login(viewModel: AuthViewModel) {
                 onClick = {
                     scope.launch {
                         val response = viewModel.login(email, password)
-                        Log.d("elevated button","Response bhai >> $response")
+                        Log.d("elevated button","Response bhai >> ${response.toString()}")
+                        snackbarHostState.showSnackbar("Response : $response")
                     }
                 },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.elevatedButtonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
