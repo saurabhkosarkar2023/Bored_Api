@@ -35,19 +35,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.board_api.CommonTextField
 import com.example.board_api.R
+import com.example.board_api.auth.data.AuthRepository
+import com.example.board_api.auth.model.User
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun Login(viewModel: AuthViewModel) {
-    val loginState by viewModel.loginState.collectAsState(initial = null)
+fun Login() {
+//    val viewModel = remember { AuthViewModel(AuthRepository()) }  // Ensures it's created after FirebaseApp
+//    val loginState by viewModel.loginState.collectAsState(initial = null)
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -55,25 +60,31 @@ fun Login(viewModel: AuthViewModel) {
     var password by remember { mutableStateOf("") }
     var loginMessage by remember { mutableStateOf("") }
 
-    LaunchedEffect(loginState) {
-        loginState?.let { result->
-            loginMessage = result.fold(
-                onSuccess = {"Login successful"},
-                onFailure = { it.message ?: "Login failed" }
-            )
-        }
-    }
+//    LaunchedEffect(loginState) {
+//        loginState?.let { result->
+//            loginMessage = result.fold(
+//                onSuccess = {
+//                    Log.d("Login Screen","Response came in success : ${it.token}")
+//                    it.email ?: "Login successful"
+//                    snackbarHostState.showSnackbar("Response : ${it.email}").toString()
+//                            },
+//                onFailure = { it.message ?: "Login failed" }
+//            )
+//        }
+//    }
+
 
     Scaffold(
      snackbarHost = { SnackbarHost(hostState = SnackbarHostState()) }   ,
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
             .background(color = MaterialTheme.colorScheme.background)
 
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -143,11 +154,11 @@ fun Login(viewModel: AuthViewModel) {
             Spacer(modifier = Modifier.height(16.dp))
             ElevatedButton(
                 onClick = {
-                    scope.launch {
-                        val response = viewModel.login(email, password)
-                        Log.d("elevated button","Response bhai >> ${response.toString()}")
-                        snackbarHostState.showSnackbar("Response : $response")
-                    }
+//                    scope.launch {
+//                        val response = viewModel.login(email, password)
+//                        Log.d("Login screen","Response bhai >> ${response.toString()}")
+//                        snackbarHostState.showSnackbar("Response : $response")
+//                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -169,19 +180,17 @@ fun Login(viewModel: AuthViewModel) {
                     )
                 )
             }
-
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "By clicking in, I accept the terms of services & Privacy policy.",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(horizontal = 16.dp),
                 textAlign = TextAlign.Center, maxLines = 2,)
         }
-
     }
 }
 
-//@Preview
+//@@Preview
 //@Composable
-//fun LoginPreview() {
+//private fun LoginPreview() {
 //    Login()
 //}

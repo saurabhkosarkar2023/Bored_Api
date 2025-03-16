@@ -3,7 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
-
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 android {
@@ -12,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.board_api"
-        minSdk = 29
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,13 +45,36 @@ android {
 
 dependencies {
     //firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-    implementation ("com.google.firebase:firebase-auth-ktx")
+    implementation(libs.firebase.bom)
+    implementation (libs.firebase.auth)
+
+    //Lifecycle-aware components - ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Kotlin Serialization for JSON
+    implementation(libs.kotlinx.serialization.json.v173)
+
+    //Hilt for di
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.android.v250)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.dagger.hilt.android.compiler)
+
+
+//    implementation(libs.kotlinx.serialization.json)
 
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+//    implementation(libs.converter.kotlinx.serialization)
+//    implementation(libs.okhttp.logging)
+
+    //Token Security
+    implementation(libs.androidx.security.crypto)
+
+    //splash
+    implementation (libs.androidx.core.splashscreen)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

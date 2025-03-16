@@ -1,8 +1,10 @@
 package com.example.board_api.auth.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class User (
-@SerializedName("email") val email:String
+    val email:String,
+    val token:String,
+    val userId: String? = null,
 )

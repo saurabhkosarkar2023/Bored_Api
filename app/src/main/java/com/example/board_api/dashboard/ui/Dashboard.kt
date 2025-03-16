@@ -12,14 +12,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.board_api.CommonAppBar
 
 @Composable
-fun DashBoard(viewModel: DashBoardViewModel= viewModel()) {
-//    val fruits= listOf("Apple","Banana","Citrus", "Grapes","Kiwi" )
+fun DashBoard(
+    navController: NavController,
+    viewModel: DashBoardViewModel = viewModel()
+) {
     val activity by viewModel.activities.collectAsState()
     Scaffold(
         topBar = { CommonAppBar("DashBoard") },
@@ -29,14 +31,16 @@ fun DashBoard(viewModel: DashBoardViewModel= viewModel()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding).padding(horizontal = 8.dp),
+                .padding(innerPadding)
+                .padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = PaddingValues(8.dp),
             userScrollEnabled = true,
-            ) {
+        ) {
             items(activity.size, key = { item -> item }) { activ ->
-                Text(text = "${activity[activ].id} ${activity[activ].name}",
+                Text(
+                    text = "${activity[activ].id} ${activity[activ].name}",
 
                     )
             }
@@ -44,8 +48,8 @@ fun DashBoard(viewModel: DashBoardViewModel= viewModel()) {
     }
 }
 
-@Composable
-@Preview
-fun DashBoardPreview() {
-    DashBoard()
-}
+//@Composable
+//@Preview
+//fun DashBoardPreview() {
+//    DashBoard()
+//}

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "255872079213",
-    "project_id": "bored-api-226b7",
-    "storage_bucket": "bored-api-226b7.firebasestorage.app"
+    "project_number": "407717212126",
+    "project_id": "bored-api-c31a5",
+    "storage_bucket": "bored-api-c31a5.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:255872079213:android:9fcc0a29a2296fd239b664",
+        "mobilesdk_app_id": "1:407717212126:android:8b9fd8ca60b4697f10774f",
         "android_client_info": {
           "package_name": "com.example.board_api"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyByhg3MJ1sx8mKtEIyUNcvJvTkEXdggWaI"
+          "current_key": "AIzaSyDliZJGfFYEszVtdVIezBJ-2ILg7JUsN1E"
         }
       ],
       "services": {
