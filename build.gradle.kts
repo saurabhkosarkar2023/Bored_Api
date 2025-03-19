@@ -5,5 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
     kotlin("plugin.serialization") version "2.1.10" apply false
-    id("com.google.dagger.hilt.android") version "2.50" apply false
+    alias(libs.plugins.google.devtools.ksp) apply  false
+    alias(libs.plugins.dagger.hilt) apply false
 }

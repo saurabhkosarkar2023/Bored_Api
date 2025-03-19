@@ -1,14 +1,12 @@
 package com.example.board_api.Navigation
 
-import android.media.Image
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
 
-data class TopLevelRoutes<T: Any>(
+data class BottomNavItem<T: Any>(
     val route: T,
     val title: String,
     val icon: ImageVector
@@ -16,11 +14,12 @@ data class TopLevelRoutes<T: Any>(
 
 @Serializable
 data object Home
-
 @Serializable
 data object Saved
+@Serializable
+data object Login
 
-val Top_Level_Routes= listOf(
-    TopLevelRoutes(route = Home, title = "Home", icon = Icons.Filled.Home),
-    TopLevelRoutes(route = Saved, title = "Saved", icon = Icons.Filled.AccountBox)
+val BottomNavItems= listOf(
+    BottomNavItem(route = Home, title = "Home", icon = Icons.Filled.Home),
+    BottomNavItem(route = Saved, title = "Saved", icon = Icons.Filled.AccountBox)
 )

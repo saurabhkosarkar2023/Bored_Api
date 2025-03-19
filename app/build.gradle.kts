@@ -2,10 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.dagger.hilt)
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
 }
 
 android {
@@ -53,22 +53,19 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Kotlin Serialization for JSON
-    implementation(libs.kotlinx.serialization.json.v173)
+    implementation(libs.kotlinx.serialization.json)
 
     //Hilt for di
     implementation(libs.hilt.android)
-    implementation(libs.hilt.android.v250)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.dagger.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
-
-//    implementation(libs.kotlinx.serialization.json)
+    //jetpack navigation
+    implementation(libs.androidx.navigation.compose)
 
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-//    implementation(libs.converter.kotlinx.serialization)
-//    implementation(libs.okhttp.logging)
 
     //Token Security
     implementation(libs.androidx.security.crypto)

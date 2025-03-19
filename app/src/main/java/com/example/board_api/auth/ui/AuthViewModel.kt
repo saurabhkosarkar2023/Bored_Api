@@ -11,10 +11,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class AuthViewModel @Inject constructor(private  val authRepository: AuthRepository) : ViewModel() {
+
+class AuthViewModel(private  val authRepository: AuthRepository) : ViewModel() {
     private val _loginState: MutableStateFlow<Result<User>?> = MutableStateFlow(null)
     val loginState: StateFlow<Result<User>?> = _loginState
 

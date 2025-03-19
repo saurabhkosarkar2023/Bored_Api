@@ -68,8 +68,8 @@ fun CommonAppBar(
     title:String
 ){
     TopAppBar(
-        title = {Text(text = title, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.W600), modifier = Modifier.padding(horizontal = 8.dp))},
-        navigationIcon = { Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "goBack")},
+        title = {Text(text = title, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.W600) )},
+//        navigationIcon = { Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "goBack")},
         modifier = Modifier.padding(horizontal = 8.dp)
     )
 }
