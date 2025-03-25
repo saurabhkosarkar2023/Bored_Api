@@ -66,6 +66,8 @@ dependencies {
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.logging.interceptor) // Logging interceptor
 
     //Token Security
     implementation(libs.androidx.security.crypto)

@@ -1,31 +1,31 @@
 package com.example.board_api.dashboard.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.board_api.dashboard.data.RetrofitClient
-import com.example.board_api.dashboard.model.Todo
+import com.example.board_api.dashboard.data.repository.PostRepository
+import com.example.board_api.dashboard.model.Posts
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DashBoardViewModel : ViewModel(){
-    private val _activity = MutableStateFlow<List<Todo>>(emptyList())
-    val activities: StateFlow<List<Todo>> = _activity
+@HiltViewModel
+class DashBoardViewModel @Inject constructor(
+    private val repository: PostRepository
+) : ViewModel(){
+    private var _posts = MutableStateFlow<List<Posts>>(emptyList())
+    var activities: StateFlow<List<Posts>> = _posts.asStateFlow()
 
-    init {
-        fetchTodo()
-    }
+    private var _isLoading = MutableStateFlow(false);
+    var isLoading: StateFlow<Boolean> = _isLoading
 
-    private fun fetchTodo(){
+    fun fetchPosts(){
         viewModelScope.launch {
-            try {
-                val todo=RetrofitClient.apiService.getTodo()
-                _activity.value=todo
-            }
-            catch (e: Exception){
-                Log.d("Network_Exception","Exception while fetching data")
-            }
+                _isLoading.value=true
+                _posts.value=repository.getPosts()
+                _isLoading.value=false
         }
     }
 }

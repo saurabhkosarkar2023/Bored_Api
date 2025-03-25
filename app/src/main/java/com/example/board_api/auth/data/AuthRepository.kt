@@ -1,13 +1,10 @@
 package com.example.board_api.auth.data
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.board_api.auth.model.User
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 

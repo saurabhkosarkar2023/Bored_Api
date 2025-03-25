@@ -6,6 +6,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,30 +57,32 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BoredApiApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     Scaffold(
-//        bottomBar = {
-//            AnimatedVisibility(
-//                visible = true,
-//                enter = fadeIn(animationSpec = tween(300)) + slideInVertically(
-//                    initialOffsetY = { it }, // Slide from bottom
-//                    animationSpec = tween(300)
-//                ),
-//                exit = fadeOut(animationSpec = tween(300)) + slideOutVertically(
-//                    targetOffsetY = { it }, // Slide out to bottom
-//                    animationSpec = tween(300)
-//                )
-//            ) {
-////                MyBottomNavigation(navController = navController)
-//            }
-//        }
         bottomBar = {
-            BottomNavigationBar(navController = navController)
+                AnimatedVisibility(
+                    visible = currentRoute == Home.toString() || currentRoute == Saved.toString(),
+                    enter = fadeIn(animationSpec = tween(300)) + slideInVertically(
+                        initialOffsetY = { it }, // Slide from bottom
+                        animationSpec = tween(300)
+                    ),
+                    exit = fadeOut(animationSpec = tween(300)) + slideOutVertically(
+                        targetOffsetY = { it }, // Slide out to bottom
+                        animationSpec = tween(300)
+                    )
+                ) {
+                    BottomNavigationBar(navController = navController)
+                }
         },
+
+
         content = { padding ->
             NavHostContainer(navController = navController, padding = padding)
 
         }
     )
+
 }
 
 @Composable
@@ -82,7 +90,8 @@ fun NavHostContainer(
     navController: NavHostController,
     padding: PaddingValues,
 ) {
-    NavHost(navController = navController,
+    NavHost(
+        navController = navController,
         startDestination = Login.toString(),
         builder = {
             composable(Home.toString()) {
@@ -104,30 +113,6 @@ fun NavHostContainer(
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val selectedIndex = rememberSaveable { mutableStateOf(0) }
-
-    NavigationBar {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
-        BottomNavItems.forEach { navItem ->
-            NavigationBarItem(
-                selected = currentRoute == navItem.route,
-                onClick = {
-                    navController.navigate(navItem.route.toString())
-                },
-                icon = { Icon(imageVector = navItem.icon, contentDescription = navItem.title) },
-                label = { Text(text = navItem.title) },
-                alwaysShowLabel = false,
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = MaterialTheme.colorScheme.surface,
-                    selectedTextColor = MaterialTheme.colorScheme.primary,
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary
-                ),
-            )
-        }
-    }
     NavigationBar {
         BottomNavItems.forEachIndexed { index, destination ->
             NavigationBarItem(
@@ -139,6 +124,10 @@ fun BottomNavigationBar(navController: NavHostController) {
                         popUpTo(route = Home.toString())
                         launchSingleTop = true
                     }
+//                    navController.navigate(BottomNavItems[index].route){
+//                        popUpTo(Home.toString())
+//                        launchSingleTop=true
+//                    }
                 },
                 icon = {
                     Icon(imageVector = destination.icon, contentDescription = Home.toString())
