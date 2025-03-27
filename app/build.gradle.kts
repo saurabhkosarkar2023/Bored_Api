@@ -46,7 +46,7 @@ android {
 dependencies {
     //firebase
     implementation(libs.firebase.bom)
-    implementation (libs.firebase.auth)
+    implementation(libs.firebase.auth)
 
     //Lifecycle-aware components - ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -73,7 +73,10 @@ dependencies {
     implementation(libs.androidx.security.crypto)
 
     //splash
-    implementation (libs.androidx.core.splashscreen)
+    implementation(libs.androidx.core.splashscreen)
+
+    //extended icons
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
