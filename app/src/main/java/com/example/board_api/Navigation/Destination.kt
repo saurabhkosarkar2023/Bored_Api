@@ -23,3 +23,9 @@ val BottomNavItems= listOf(
     BottomNavItem(route = Home, title = "Home", icon = Icons.Filled.Home),
     BottomNavItem(route = Saved, title = "Saved", icon = Icons.Filled.AccountBox)
 )
+
+sealed class Screens(val route:String){
+    object Home:Screens("Home")
+    object Login:Screens("Login")
+    object Saved:Screens("Saved")
+}

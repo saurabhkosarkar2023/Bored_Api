@@ -22,7 +22,7 @@ class DashBoardViewModel @Inject constructor(
     var isLoading: StateFlow<Boolean> = _isLoading
 
     fun fetchPosts(){
-        viewModelScope.launch {
+        viewModelScope.launch{
                 _isLoading.value=true
                 _posts.value=repository.getPosts()
                 _isLoading.value=false
