@@ -35,6 +35,7 @@ import com.example.board_api.Navigation.Screens
 import com.example.board_api.Saved.UI.SavedActivity
 import com.example.board_api.auth.ui.AuthViewModel
 import com.example.board_api.auth.ui.Login
+import com.example.board_api.auth.ui.SignUp
 import com.example.board_api.dashboard.ui.DashBoard
 import com.example.board_api.ui.theme.Board_APITheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -119,6 +120,9 @@ fun NavHostContainer(
             }
             composable(Screens.Login.route) {
                 Login(navController = navController)
+            }
+            composable(Screens.SignUp.route) {
+                SignUp(navController = navController)
             }
         }
 

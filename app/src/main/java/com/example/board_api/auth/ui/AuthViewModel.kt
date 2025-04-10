@@ -71,10 +71,25 @@ class AuthViewModel @Inject constructor(
 
     fun signUp(email: String, password: String) {
         viewModelScope.launch {
-            Log.d(
-                "Auth-ViewModel","Inside signUp() of auth viewmodel with email >> $email and pass >> $password")
+            Log.d("Auth-ViewModel","Inside signUp() of auth viewmodel with email >> $email and pass >> $password")
             _loadingState.value = true
-            _loginState.value = loginRespository.signUp(email, password)
+            val response = loginRespository.signUp(email, password)
+            response.fold(
+                onSuccess = {
+                    val token = it.token
+                    SecurePrefs.saveToken(application.applicationContext,token)
+                    _loginState.value = Result.success(
+                        User(
+                            email = it.email,
+                            token = token,
+                            userId = it.userId,
+                        )
+                    )
+                },
+                onFailure = {
+                    _loginState.value = Result.failure(it)
+                }
+            )
             _loadingState.value = false
             Log.d("Auth-ViewModel response", "Incoming response >> ${_loadingState.value}")
         }

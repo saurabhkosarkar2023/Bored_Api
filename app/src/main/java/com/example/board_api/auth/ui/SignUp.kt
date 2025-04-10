@@ -50,35 +50,38 @@ import com.example.board_api.Navigation.Screens
 import com.example.board_api.R
 
 @Composable
-fun Login(
-    navController: NavController, viewModel: AuthViewModel = hiltViewModel()
+fun SignUp(
+    navController: NavController,
+    viewModel: AuthViewModel = hiltViewModel()
 ) {  // Ensures it's created after FirebaseApp
     val loginState = viewModel.loginState.collectAsState()
-    var loading by remember { mutableStateOf(false) }
     val loadingState = viewModel.loadingState.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPass by remember { mutableStateOf("") }
     val context = LocalContext.current
     LaunchedEffect(loginState.value) {
-        loginState.value?.onFailure {
+       loginState.value?.onFailure {
             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
         }
-
-        if (loginState.value?.isSuccess == true) {
+        loginState.value?.onSuccess {
             navController.navigate(Screens.Home.route) {
                 popUpTo(0)
                 launchSingleTop = true
             }
         }
+//        if (loginState.value?.isSuccess == true) {
+//            navController.navigate(Screens.Home.route) {
+//                popUpTo(0)
+//                launchSingleTop = true
+//            }
+//        }
     }
-
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = SnackbarHostState()) },
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-
+            .background(color = MaterialTheme.colorScheme.background),
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -104,7 +107,8 @@ fun Login(
                 text = "Login",
                 textAlign = TextAlign.Left,
                 style = MaterialTheme.typography.titleLarge.copy(
-                    fontSize = 24.sp, fontWeight = FontWeight.Bold
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
             )
             Spacer(modifier = Modifier.height(24.dp))
@@ -120,7 +124,8 @@ fun Login(
                 modifier = Modifier,
                 leadingIcon = {
                     Icon(
-                        imageVector = Icons.Default.Email, contentDescription = "Email"
+                        imageVector = Icons.Default.Email,
+                        contentDescription = "Email"
                     )
                 },
                 value = email,
@@ -140,7 +145,8 @@ fun Login(
                 modifier = Modifier,
                 leadingIcon = {
                     Icon(
-                        imageVector = Icons.Default.Lock, contentDescription = "Password"
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = "Password"
                     )
                 },
                 value = password.toString(),
@@ -148,15 +154,40 @@ fun Login(
                 onValueChange = { password = it },
             )
             Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Confirm your password",
+                textAlign = TextAlign.Left,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+            CommonTextField(
+                modifier = Modifier,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = "Confirm Password"
+                    )
+                },
+                value = confirmPass.toString(),
+                label = "xxxxxxxx",
+                onValueChange = { confirmPass = it },
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             ElevatedButton(
                 onClick = {
-                    if (password.length < 6 && password.isNotEmpty()) {
-                        Toast.makeText(context, "Password is too short", Toast.LENGTH_SHORT).show()
-                    } else if (password.isEmpty()) {
-                        Toast.makeText(context, "Please fill password", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Log.d("saurabh-login", "Email >> $email and password >> $password")
-                        viewModel.login(email, password)
+                    Log.d("saurabh-login", "Email >> $email and password >> $password")
+                    if (password != confirmPass) {
+                       Toast.makeText(context,"Password does not match!",Toast.LENGTH_SHORT).show()
+                    }
+                    else if(password.length < 6){
+                        Toast.makeText(context,"Password is too short",Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        Log.d("Signup check","Am I inside the condition?")
+                        viewModel.signUp(email, confirmPass)
                     }
                 },
                 modifier = Modifier
@@ -169,6 +200,7 @@ fun Login(
                     disabledContainerColor = Color.Blue,
                     disabledContentColor = Color.White
                 )
+
             ) {
                 when (loadingState.value) {
                     true -> {
@@ -183,7 +215,8 @@ fun Login(
 
                     false -> {
                         Text(
-                            text = "Login", style = MaterialTheme.typography.bodyLarge.copy(
+                            text = "SignUp",
+                            style = MaterialTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.W600,
                                 color = MaterialTheme.colorScheme.onPrimary
                             )
@@ -191,33 +224,6 @@ fun Login(
                     }
                 }
 
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text("OR")
-            Spacer(modifier = Modifier.height(16.dp))
-            ElevatedButton(
-                onClick = {
-                    navController.navigate(Screens.SignUp.route)
-
-
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                    disabledContainerColor = Color.Blue,
-                    disabledContentColor = Color.White
-                )
-
-            ) {
-                Text(
-                    text = "SignUp", style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.W600, color = MaterialTheme.colorScheme.onPrimary
-                    )
-                )
             }
             Spacer(modifier = Modifier.height(24.dp))
             Text(

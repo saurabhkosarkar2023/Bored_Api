@@ -18,6 +18,8 @@ data object Home
 data object Saved
 @Serializable
 data object Login
+@Serializable
+data object SignUp
 
 val BottomNavItems= listOf(
     BottomNavItem(route = Home, title = "Home", icon = Icons.Filled.Home),
@@ -28,4 +30,5 @@ sealed class Screens(val route:String){
     object Home:Screens("Home")
     object Login:Screens("Login")
     object Saved:Screens("Saved")
+    object SignUp:Screens("SignUp")
 }
