@@ -1,7 +1,7 @@
 # Bored API
 A simple Android app built with Kotlin Compose to demonstrate modern Android best practices like Clean Architecture, Repository Pattern, and Kotlin best practices using Retrofit and Hilt.
 
-##✨ Features
+✨ ## Features
 Fetch random activities from the Bored API (demo purpose).
 
 Like activities and save them locally.
@@ -16,7 +16,7 @@ Built with Jetpack Compose for UI.
 
 Offline-first approach for saved activities.
 
-##🛠️ Tech Stack
+🛠️ ##Tech Stack
 Kotlin (100% Kotlin-first)
 
 Jetpack Compose (UI Toolkit)
