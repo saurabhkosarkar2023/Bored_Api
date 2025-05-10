@@ -1,4 +1,4 @@
-Bored API
+# Main Bored API
 A simple Android app built with Kotlin Compose to demonstrate modern Android best practices like Clean Architecture, Repository Pattern, and Kotlin best practices using Retrofit and Hilt.
 
 ✨ Features
